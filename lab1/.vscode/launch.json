@@ -1,0 +1,31 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "(gdb) Launch", // Имя конфигурации
+            "type": "cppdbg", // Указывает, что используется отладчик для C++
+            "request": "launch", // Запрос запуска
+            "program": "${workspaceFolder}/main.exe", // Путь к исполняемому файлу
+            "args": [], // Аргументы программы, если нужны
+            "stopAtEntry": false, // Остановка на входе
+            "cwd": "${workspaceFolder}", // Рабочая директория
+            "environment": [],
+            "externalConsole": false, // Использовать интегрированный терминал
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "miDebuggerPath": "/usr/bin/gdb", // Путь к gdb
+            "preLaunchTask": "build", // Задача сборки (указать задачу из tasks.json)
+            "console": "integratedTerminal", // Вывод программы в интегрированный терминал
+            "logging": {
+                "engineLogging": false
+            },
+            "internalConsoleOptions": "openOnSessionStart"
+        }
+    ]
+}
