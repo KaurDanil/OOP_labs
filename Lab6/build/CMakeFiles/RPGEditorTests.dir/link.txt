@@ -1,0 +1,1 @@
+/usr/bin/c++ -Wl,--dependency-file,CMakeFiles/RPGEditorTests.dir/link.d CMakeFiles/RPGEditorTests.dir/test/test.cpp.o -o RPGEditorTests  -lgtest_main
