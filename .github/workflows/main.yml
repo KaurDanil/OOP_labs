@@ -14,11 +14,14 @@ jobs:
 
     strategy:
       matrix:
-        lab: [lab1, lab2, lab3, lab4, lab5, lab6] 
+        lab: [lab1, lab2, lab3, lab4, lab5, lab6, lab7] 
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
+      with:
+        submodules: true
+
 
     - name: Install dependencies
       run: |
@@ -30,9 +33,12 @@ jobs:
 
     - name: Build Project
       run: |
-        make build
+        mkdir -p build
+        cd build
+        cmake ..
+        make all
         
     - name: Run Tests
       run: |
-        cd build/lab1
-        ctest
+        cd build/${{ matrix.lab }}
+        ./tests_${{ matrix.lab }}
