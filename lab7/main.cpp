@@ -136,7 +136,7 @@ public:
 
                 if (defender->accept(visitor, *attacker))
                 {
-                    defender->must_die(); // Defender умирает
+                    defender->must_die(); 
                 }
             }
             else
@@ -149,29 +149,25 @@ public:
 
 int main()
 {
-    set_t array; // Набор всех NPC
+    set_t array; 
 
     const int MAX_X{100};
     const int MAX_Y{100};
 
-    // Генерация начального распределения NPC
     for (size_t i = 0; i < 50; ++i)
         array.insert(NPCFactory::factory(NpcType(std::rand() % 3), Point(std::rand() % MAX_X, std::rand() % MAX_Y)));
 
-    // Поток обработки событий боя
     std::thread fight_thread(std::ref(FightManager::get()));
 
-    // Поток перемещения NPC и добавления боев
     std::thread move_thread([&array, MAX_X, MAX_Y]()
                             {
         while (isRunning){
-            // Фаза перемещения
             for (std::shared_ptr<NPC> npc : array)
             {
                 if (npc->is_alive())
                 {
-                    int shift_x = (std::rand() % 3 - 1); // -1, 0, 1
-                    int shift_y = (std::rand() % 3 - 1); // -1, 0, 1
+                    int shift_x = (std::rand() % 3 - 1); 
+                    int shift_y = (std::rand() % 3 - 1); 
                     npc->move(shift_x, shift_y, MAX_X, MAX_Y);
                 }
             }
@@ -191,7 +187,6 @@ int main()
             std::this_thread::sleep_for(std::chrono::milliseconds(100));
         } });
 
-    // Поток завершения игры
     std::thread game_thread([]()
                             {
         std::this_thread::sleep_for(std::chrono::seconds(25));
@@ -214,13 +209,13 @@ int main()
                     switch (npc->get_type())
                     {
                     case WanderingKnightType:
-                        fields[i + grid * j] = 'W'; // Рыцарь
+                        fields[i + grid * j] = 'W';
                         break;
                     case SlaveTraderType:
-                        fields[i + grid * j] = 'S'; // Работорговец
+                        fields[i + grid * j] = 'S'; 
                         break;
                     case SquirrelType:
-                        fields[i + grid * j] = 'Q'; // Белка
+                        fields[i + grid * j] = 'Q';
                         break;
                     default:
                         break;
@@ -228,7 +223,7 @@ int main()
                 }
                 else
                 {
-                    fields[i + grid * j] = '.'; // Мертвый NPC
+                    fields[i + grid * j] = '.';
                 }
             }
 
@@ -250,7 +245,6 @@ int main()
         std::this_thread::sleep_for(1s);
     };
 
-    // Ожидание завершения потоков
     game_thread.join();
     move_thread.join();
     fight_thread.join();
@@ -258,9 +252,9 @@ int main()
     std::cout << "Game over. Final NPC states:" << std::endl;
     for (const auto &npc : array)
     {
-        if (npc->is_alive()) // Проверяем, жив ли NPC
+        if (npc->is_alive()) 
         {
-            npc->print(); // Вывод информации о выживших
+            npc->print(); 
         }
     }
 
