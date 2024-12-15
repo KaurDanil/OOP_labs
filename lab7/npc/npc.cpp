@@ -12,7 +12,7 @@ bool NPC::is_close(const std::shared_ptr<NPC> &other)
 {
     std::lock_guard<std::mutex> lck(mtx);
 
-    if (this == other.get()) // Исключаем бой с самим собой
+    if (this == other.get())
         return false;
 
     size_t distance = 0;
@@ -20,10 +20,10 @@ bool NPC::is_close(const std::shared_ptr<NPC> &other)
     {
     case WanderingKnightType:
     case SlaveTraderType:
-        distance = 10; // Рыцари и Работорговцы видят на 10 клеток
+        distance = 10; 
         break;
     case SquirrelType:
-        distance = 5; // Белки видят только на 5 клеток
+        distance = 5; 
         break;
     default:
         break;
@@ -77,22 +77,20 @@ void NPC::move(int shift_x, int shift_y, int max_x, int max_y)
 
     if (this->type == WanderingKnightType)
     {
-        move_distance = 30; // Уменьшено для плавного перемещения
+        move_distance = 30; 
     }
     else if (this->type == SquirrelType)
     {
-        move_distance = 5; // Белки перемещаются медленнее
+        move_distance = 5; 
     }
     else if (this->type == SlaveTraderType)
     {
-        move_distance = 10; // Работорговцы тоже перемещаются медленно
+        move_distance = 10; 
     }
 
-    // Расчет нового положения с учетом move_distance
     int new_x = position.x_ + move_distance * shift_x;
     int new_y = position.y_ + move_distance * shift_y;
 
-    // Ограничиваем координаты в пределах карты
     position.x_ = std::max(0, std::min(max_x, new_x));
     position.y_ = std::max(0, std::min(max_y, new_y));
 }
